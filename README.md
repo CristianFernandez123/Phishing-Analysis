@@ -80,3 +80,43 @@ I don't have access to the malicious executable that was stored in the email any
 I retrieved the hash by opening PowerShell where the file was downloaded to and use the command "Get-FileHash .\COVID19-Testing-Kit-2020.pdf.exe."
 
 This returns the SHA256 hash by default which we can copy and paste into [virustotal.com](https://www.virustotal.com/gui/home/upload) to see if we have a malicious attachment or not. It is important to note just because VirusTotal comes out as not malicious doesn't mean the file isn't malicious and further analysis would have to be done. In this case, we got the malicious tags on VirusTotal. 
+
+# Email One Report
+
+Sending Address: QPE77756@mun[.]ca
+
+Subject Line: Your Amazon.co.uk order of "ION Audio Turntable.."
+
+Recipients: jack.tractive@abcindustries[.]co.uk
+
+Sending Server IP: 68.114.190.29
+
+Reverse DNS:  mtaout004-public.msg.strl.va.charter.net
+
+Reply-To: none
+
+Date and Time: Wed, 19 Apr 2017 12:35:58 +0000
+
+Full URL: http://id820update.refundsys59[.]co.uk/invoice103amz/index.php?email=jack.tractive@abcindustries.co.uk
+Root Domain: http://id820update.refundsys59[.]co
+
+The email appears to be a phishing attempt disguised as a communication from Amazon. It features the Amazon logo and branding to make it appear authentic. The email contains a message informing the recipient of a supposed issue with their account and urges them to click on a link labeled as the 'Help Page - Refund Form' to resolve the issue.
+
+## Artifact Analysis
+A reverse DNS search on the sending server IP shows IP isn't associated with an individual entity but by Searching for the IP 68.114.190.29 in sublime we can find the hostname of the sending server mtaout004-public.msg.strl.va.charter.net
+
+URL2PNG analysis shows that the full URL is an Amazon credential harvester, asking users to enter their email and password.
+
+A VirusTotal search for the domain shows that it has been flagged for malicious and phishing activity, therefore it is known to be malicious within the security community.
+
+Checking the SIEM and EDR no employees have made a network connection to the malicious domain, so no recipients have clicked on the link in the email at this time.
+
+## Suggested Defensive Measures
+The most appropriate action would be to block this specific mailbox to prevent any more incoming malicious emails from this sender.
+
+Requesting an email gateway block for the sending address “QPE77756@mun[.]ca“.
+
+The domain has been recognized as malicious, and there is no business justification for any employees needing to access this site. As it has a malicious reputation on VirusTotal, and analysis has shown that it is hosting a credential harvester, the entire domain can be blocked on the web proxy, preventing employees from connecting to the site. This will also make future phishing attacks using this same domain ineffective.
+
+Requesting a web proxy block for the domain “http://id820update.refundsys59[.]co“
+
